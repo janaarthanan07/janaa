@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <title>PocketSmart AI</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="logo">
+                💰
+            </div>
+
+            <div>
+                <h1>PocketSmart AI</h1>
+                <p>Your Smart Budget & Recommendation Assistant</p>
+            </div>
+
+        </div>
+
+        <div class="gemini-badge">
+            ✨ Powered by Gemini
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section class="dashboard">
+
+            <div class="summary-card">
+
+                <div class="card-icon income-icon">
+                    💵
+                </div>
+
+                <div>
+                    <p>Monthly Income</p>
+                    <h2 id="incomeDisplay">₹0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="card-icon expense-icon">
+                    🧾
+                </div>
+
+                <div>
+                    <p>Total Expenses</p>
+                    <h2 id="expenseDisplay">₹0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="card-icon balance-icon">
+                    💰
+                </div>
+
+                <div>
+                    <p>Remaining</p>
+                    <h2 id="remainingDisplay">₹0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="card-icon saving-icon">
+                    🎯
+                </div>
+
+                <div>
+                    <p>Savings Goal</p>
+                    <h2 id="savingDisplay">₹0</h2>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= INPUT SECTION ================= -->
+
+        <div class="two-column">
+
+
+            <!-- INCOME -->
+
+            <section class="card">
+
+                <h2>💵 Monthly Income</h2>
+
+                <p class="description">
+                    Enter your total monthly income.
+                </p>
+
+                <label for="income">
+                    Income
+                </label>
+
+                <input
+                    type="number"
+                    id="income"
+                    placeholder="Example: 20000"
+                    min="0"
+                >
+
+                <button onclick="setIncome()">
+                    Save Income
+                </button>
+
+            </section>
+
+
+            <!-- SAVINGS -->
+
+            <section class="card">
+
+                <h2>🎯 Savings Goal</h2>
+
+                <p class="description">
+                    Set the amount you want to save every month.
+                </p>
+
+                <label for="savingsGoal">
+                    Savings Target
+                </label>
+
+                <input
+                    type="number"
+                    id="savingsGoal"
+                    placeholder="Example: 5000"
+                    min="0"
+                >
+
+                <button onclick="setSavingsGoal()">
+                    Save Goal
+                </button>
+
+            </section>
+
+        </div>
+
+
+
+        <!-- ================= EXPENSE FORM ================= -->
+
+        <section class="card">
+
+            <h2>🧾 Add Expense</h2>
+
+            <p class="description">
+                Add your daily or monthly expenses.
+            </p>
+
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category">
+
+                        <option value="Food">
+                            🍔 Food
+                        </option>
+
+                        <option value="Travel">
+                            🚌 Travel
+                        </option>
+
+                        <option value="Shopping">
+                            🛍 Shopping
+                        </option>
+
+                        <option value="Education">
+                            📚 Education
+                        </option>
+
+                        <option value="Entertainment">
+                            🎮 Entertainment
+                        </option>
+
+                        <option value="Bills">
+                            💡 Bills
+                        </option>
+
+                        <option value="Healthcare">
+                            🏥 Healthcare
+                        </option>
+
+                        <option value="Other">
+                            📦 Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label for="amount">
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="Example: 1500"
+                        min="0"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button onclick="addExpense()">
+                + Add Expense
+            </button>
+
+        </section>
+
+
+
+        <!-- ================= EXPENSE LIST ================= -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>📋 Expense History</h2>
+
+                    <p class="description">
+                        Your recorded expenses.
+                    </p>
+
+                </div>
+
+                <button
+                    class="danger-button"
+                    onclick="clearExpenses()"
+                >
+                    Clear All
+                </button>
+
+            </div>
+
+
+            <div id="expenseList">
+
+                <p class="empty">
+                    No expenses added yet.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= AFFORDABILITY ================= -->
+
+        <section class="card affordability">
+
+            <h2>🛒 Can I Afford It?</h2>
+
+            <p class="description">
+                Ask Gemini whether a planned purchase fits your current budget.
+            </p>
+
+
+            <div class="purchase-form">
+
+                <input
+                    type="text"
+                    id="purchaseName"
+                    placeholder="What do you want to buy?"
+                >
+
+                <input
+                    type="number"
+                    id="purchaseAmount"
+                    placeholder="Price ₹"
+                    min="0"
+                >
+
+                <button onclick="checkPurchase()">
+                    ✨ Analyze Purchase
+                </button>
+
+            </div>
+
+
+            <div
+                id="purchaseResult"
+                class="purchase-result"
+            >
+                Enter a purchase to analyze it.
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= GEMINI AI ================= -->
+
+        <section class="ai-card">
+
+            <div class="ai-header">
+
+                <div class="ai-avatar">
+                    ✨
+                </div>
+
+                <div>
+
+                    <h2>PocketSmart AI</h2>
+
+                    <p>
+                        Ask Gemini about your budget and spending.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <textarea
+                id="aiQuestion"
+                placeholder="Example: How can I save ₹2,000 more this month?"
+            ></textarea>
+
+
+            <button
+                class="gemini-button"
+                onclick="askGemini()"
+            >
+                ✨ Ask Gemini
+            </button>
+
+
+            <div
+                id="aiResponse"
+                class="ai-response"
+            >
+
+                <p>
+                    Your personalized AI recommendation will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= QUICK QUESTIONS ================= -->
+
+        <section class="card">
+
+            <h2>💡 Quick Questions</h2>
+
+            <div class="quick-buttons">
+
+                <button onclick="quickQuestion(
+                    'Analyze my current spending and identify my major spending categories.'
+                )">
+                    📊 Analyze Spending
+                </button>
+
+
+                <button onclick="quickQuestion(
+                    'Create a simple monthly savings plan based on my current financial data.'
+                )">
+                    💰 Savings Plan
+                </button>
+
+
+                <button onclick="quickQuestion(
+                    'Suggest practical ways I can reduce unnecessary expenses.'
+                )">
+                    ✂️ Reduce Expenses
+                </button>
+
+
+                <button onclick="quickQuestion(
+                    'Create a simple monthly budget based on my income, expenses and savings goal.'
+                )">
+                    📅 Create Budget
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            PocketSmart AI • Generative AI with Google Gemini
+        </p>
+
+    </footer>
+
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
