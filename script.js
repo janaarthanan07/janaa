@@ -395,7 +395,7 @@ async function askGemini() {
 
         const response =
             await fetch(
-                "/api/advice",
+                "https://janaa-hq4e.onrender.com/api/advice",
                 {
 
                     method: "POST",
