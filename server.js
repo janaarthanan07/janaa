@@ -32,7 +32,7 @@ const { GoogleGenAI } = await loadDependency(
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendDirectory = path.resolve(__dirname, "..", "front end");
+const frontendDirectory = __dirname;
 
 dotenv.config({ path: path.join(__dirname, "AH.env") });
 
@@ -43,6 +43,9 @@ const retryDelaysMs = [0, 750, 2000];
 app.use(cors());
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(frontendDirectory));
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
